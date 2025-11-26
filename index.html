@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Gameloot | Game Search</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <header id="header">
+      <h1>Game Search</h1>
+    </header>
+
+    <main class="container">
+      <div class="search-box">
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Search for a game..."
+        />
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <section id="results" class="results"></section>
+    </main>
+
+    <!-- IMPORTANT: this is the ONLY script include -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

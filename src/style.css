@@ -1,0 +1,81 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: #f5f5f5;
+}
+
+/* Header */
+#header {
+  margin-bottom: 1rem;
+}
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: #1f1f1f;
+}
+
+.site-header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.site-header nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.site-header nav a {
+  color: #f5f5f5;
+  text-decoration: none;
+}
+
+/* Main layout */
+
+main h1 {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.search-section {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem;
+}
+
+.search-section input {
+  padding: 0.5rem 1rem;
+  min-width: 240px;
+}
+
+.search-section button {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.game-card {
+  background: #1f1f1f;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.game-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+}
