@@ -1,51 +1,71 @@
+// src/wishlistStorage.mjs
+
 const STORAGE_KEY = "gameloot-wishlist";
 
-function readWishlist() {
-  if (typeof localStorage === "undefined") return [];
-  const raw = localStorage.getItem(STORAGE_KEY);
-  if (!raw) return [];
+function loadWishlist() {
   try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const data = JSON.parse(raw);
+    // Make sure it’s an array
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    console.error("Error reading wishlist from localStorage:", err);
     return [];
   }
 }
 
-function writeWishlist(list) {
-  if (typeof localStorage === "undefined") return;
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-}
-
-// Get full wishlist
-export function getWishlist() {
-  return readWishlist();
-}
-
-// Check if a game is already in the wishlist
-export function isInWishlist(id) {
-  const list = readWishlist();
-  return list.some((item) => String(item.id) === String(id));
-}
-
-// Add a game to the wishlist
-export function addToWishlist(game) {
-  const list = readWishlist();
-  // avoid duplicates
-  if (list.some((item) => String(item.id) === String(game.id))) {
-    return;
+function saveWishlist(list) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch (err) {
+    console.error("Error saving wishlist to localStorage:", err);
   }
+}
+
+/**
+ * Add a game to the wishlist.
+ * Expects a RAWG game object (or at least id, name, background_image).
+ */
+export function addToWishlist(game) {
+  if (!game || !game.id) return;
+
+  const list = loadWishlist();
+
+  // Avoid duplicates
+  if (list.some((item) => item.id === game.id)) return;
+
   list.push({
     id: game.id,
     name: game.name,
-    image: game.image || "",
+    background_image: game.background_image || "",
+    slug: game.slug || "",
   });
-  writeWishlist(list);
+
+  saveWishlist(list);
 }
 
-// Remove a game from the wishlist
+/**
+ * Remove a game from the wishlist by RAWG id.
+ */
 export function removeFromWishlist(id) {
-  const list = readWishlist();
-  const filtered = list.filter((item) => String(item.id) !== String(id));
-  writeWishlist(filtered);
+  if (!id) return;
+  const list = loadWishlist().filter((item) => item.id !== id);
+  saveWishlist(list);
+}
+
+/**
+ * Check if a game is already in the wishlist.
+ */
+export function isInWishlist(id) {
+  if (!id) return false;
+  const list = loadWishlist();
+  return list.some((item) => item.id === id);
+}
+
+/**
+ * Get the full wishlist array.
+ */
+export function getWishlist() {
+  return loadWishlist();
 }

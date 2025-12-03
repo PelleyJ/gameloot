@@ -79,3 +79,66 @@ main h1 {
   border-radius: 10px;
   margin-bottom: 0.5rem;
 }
+
+.deals-page {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  text-align: left;
+}
+
+.deals-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.deal-card {
+  background: #1c1c1c;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.deal-card__img-wrapper {
+  flex: 0 0 90px;
+}
+
+.deal-card__img-wrapper img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.deal-card__info {
+  flex: 1;
+}
+
+.deal-card__prices {
+  margin: 0.25rem 0;
+}
+
+.deal-card__sale {
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+.deal-card__normal {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+.deal-card__savings {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+.deal-card__link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: underline;
+}

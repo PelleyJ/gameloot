@@ -1,74 +1,83 @@
-const CHEAPSHARK_BASE = "https://www.cheapshark.com/api/1.0";
+const CHEAPSHARK_API_BASE = "https://www.cheapshark.com/api/1.0";
 
-async function handleResponse(response) {
+// ---------- Helper for fetch + JSON ----------
+async function fetchJson(url) {
+  const response = await fetch(url);
   if (!response.ok) {
     throw new Error(
-      `CheapShark error: ${response.status} ${response.statusText}`
+      `CheapShark error ${response.status} ${response.statusText} for ${url}`
     );
   }
   return response.json();
 }
 
+// ---------- Search a single game by title ----------
 /**
  * Search CheapShark for a game by title.
- * Returns an array of matches.
+ * Returns an array of matches (can be empty).
  */
 export async function searchGameOnCheapShark(title) {
   if (!title) return [];
-  const url = `${CHEAPSHARK_BASE}/games?title=${encodeURIComponent(
-    title
-  )}&limit=10`;
-  const response = await fetch(url);
-  const data = await handleResponse(response);
-  console.log("CheapShark search results:", data);
-  return data;
+  const params = new URLSearchParams({
+    title,
+    pageSize: "10",
+    exact: "0",
+  });
+  const url = `${CHEAPSHARK_API_BASE}/games?${params.toString()}`;
+  return fetchJson(url);
 }
 
+// ---------- Deals for a specific CheapShark gameID ----------
 /**
  * Get all deals for a specific CheapShark gameID.
- * NOTE: /games?id=GAMEID returns an object with a "deals" array.
+ * Used on the game details page to find the best deal.
  */
-export async function getDealsForGameId(gameId) {
-  if (!gameId) return [];
-  const url = `${CHEAPSHARK_BASE}/games?id=${gameId}`;
-  const response = await fetch(url);
-  const data = await handleResponse(response);
-  console.log("CheapShark game details:", data);
-  return data.deals || [];
-}
-
-/**
- * Get top deals for the Deals page (we'll use this later).
- */
-export async function getTopDeals(number = 20) {
-  const url = `${CHEAPSHARK_BASE}/deals?storeID=1,7,8,25&upperPrice=60&pageSize=${number}`;
-  const response = await fetch(url);
-  const data = await handleResponse(response);
-  console.log("CheapShark top deals:", data);
-  return data;
-}
-
-// Simple in-memory cache of store data so we only fetch it once.
-let storesCache = null;
-
-async function fetchStores() {
-  if (storesCache) return storesCache;
-  const url = `${CHEAPSHARK_BASE}/stores`;
-  const response = await fetch(url);
-  const stores = await handleResponse(response);
-
-  storesCache = {};
-  stores.forEach((store) => {
-    storesCache[store.storeID] = store.storeName;
+export async function getDealsForGameId(gameID) {
+  if (!gameID) return [];
+  const params = new URLSearchParams({
+    gameID: String(gameID),
   });
-  console.log("CheapShark stores:", storesCache);
-  return storesCache;
+  const url = `${CHEAPSHARK_API_BASE}/deals?${params.toString()}`;
+  return fetchJson(url);
+}
+
+// ---------- Store name lookup (cached) ----------
+let storeCache = null;
+
+/**
+ * Load all CheapShark stores, cached in memory.
+ */
+async function loadStores() {
+  if (storeCache) return storeCache;
+  const url = `${CHEAPSHARK_API_BASE}/stores`;
+  const stores = await fetchJson(url);
+  const map = {};
+  stores.forEach((store) => {
+    map[store.storeID] = store.storeName;
+  });
+  storeCache = map;
+  return storeCache;
 }
 
 /**
- * Helper to turn a storeID into its human-readable name.
+ * Get the store name from a CheapShark storeID.
  */
 export async function getStoreName(storeID) {
-  const stores = await fetchStores();
-  return stores[storeID] || "Unknown Store";
+  if (!storeID) return "Unknown store";
+  const stores = await loadStores();
+  return stores[storeID] || "Unknown store";
+}
+
+// ---------- Top deals list (for deals page) ----------
+/**
+ * Get a list of the top current deals, sorted by savings.
+ * @param {number} limit - number of deals to return
+ */
+export async function getTopDeals(limit = 20) {
+  const params = new URLSearchParams({
+    pageSize: String(limit),
+    sortBy: "Savings", // biggest discount first
+  });
+  const url = `${CHEAPSHARK_API_BASE}/deals?${params.toString()}`;
+  return fetchJson(url);
 }
