@@ -1,3 +1,4 @@
+// src/renderGames.mjs
 console.log("renderGames.mjs module loaded");
 
 /**
@@ -25,12 +26,21 @@ export function renderGames(games, parent) {
 
     const imgSrc = game.background_image || "";
     const rating = game.rating ?? "N/A";
+    const gameUrl = `game.html?id=${game.id}`;
 
     card.innerHTML = `
-      <img src="${imgSrc}" alt="${game.name}" />
-      <h3>${game.name}</h3>
+      <a href="${gameUrl}">
+        <img src="${imgSrc}" alt="${game.name}" />
+        <h3>${game.name}</h3>
+      </a>
       <p>Rating: ${rating}</p>
     `;
+
+    // 🔥 Make the whole card clickable, like a button
+    card.style.cursor = "pointer";
+    card.addEventListener("click", () => {
+      window.location.href = gameUrl;
+    });
 
     parent.appendChild(card);
   });

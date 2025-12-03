@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameLoot | Game Details</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+<header id="header">
+  <h1>Game Search</h1>
+</header>
+
+<main>
+  <section id="game-detail" class="game-detail">
+    <div class="game-detail__header">
+      <img id="game-image" class="game-detail__image" alt="" />
+      <div>
+        <h1 id="game-title"></h1>
+        <p id="game-meta"></p>
+        <button id="add-to-wishlist">Add to Wishlist</button>
+      </div>
+    </div>
+
+    <section>
+      <h2>Description</h2>
+      <p id="game-description"></p>
+    </section>
+
+    <section>
+      <h2>Screenshots</h2>
+      <div id="screenshot-grid" class="screenshot-grid"></div>
+    </section>
+
+    <section>
+      <h2>Best Deal</h2>
+      <div id="deal-info" class="deal-info">
+        <!-- CheapShark deal will go here -->
+      </div>
+    </section>
+  </section>
+
+  <!-- Modal -->
+  <div id="screenshot-modal" class="modal hidden">
+    <div class="modal__content">
+      <button id="modal-close" class="modal__close">&times;</button>
+      <img id="modal-image" alt="Screenshot" />
+    </div>
+  </div>
+</main>
+
+<script type="module" src="/src/gameDetails.mjs"></script>
+</body>
+</html>
