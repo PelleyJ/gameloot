@@ -1,32 +1,41 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <title>Top Game Deals</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameLoot • Top Game Deals</title>
 
-  <link rel="stylesheet" href="src/style.css">
-  <script type="module" src="src/deals.mjs"></script>
-</head>
+    <link rel="stylesheet" href="src/style.css">
+  </head>
 
   <body>
-    <header id="header">
-      <h1>Game Search</h1>
+    <header id="header" class="site-header">
+      <div class="logo">GameLoot</div>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Search</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="deals.html">Deals</a></li>
+        </ul>
+      </nav>
     </header>
 
-    <main>
-      <section class="deals-page">
-        <h1>Top Game Deals</h1>
-        <p>
-          Browse current discounts from multiple stores powered by CheapShark.
-        </p>
+    <main class="deals-page">
+      <h1>Top Game Deals</h1>
+      <p class="deals-intro">
+        Browse current discounts from multiple stores powered by CheapShark.
+      </p>
 
-        <section id="deals-list" class="deals-list">
-          <!-- Deals will be rendered here -->
-        </section>
+      <section
+        id="deals-list"
+        class="deals-list"
+        aria-live="polite"
+      >
+        <!-- Deals will be rendered here -->
       </section>
     </main>
 
-    <!-- IMPORTANT: leading slash here too -->
-    <script type="module" src="/src/deals.mjs"></script>
+    <!-- Single correct script include -->
+    <script type="module" src="src/deals.mjs"></script>
   </body>
 </html>

@@ -1,61 +1,84 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Game Details</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameLoot • Game Details</title>
 
-  <link rel="stylesheet" href="src/style.css">
-  <script type="module" src="src/gameDetails.mjs"></script>
-</head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GameLoot | Game Details</title>
-  <link rel="stylesheet" href="/src/style.css" />
-</head>
-<body>
+    <link rel="stylesheet" href="src/style.css">
+  </head>
+  <body>
+    <!-- Shared header -->
+    <header id="header" class="site-header">
+      <div class="logo">GameLoot</div>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Search</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="deals.html">Deals</a></li>
+        </ul>
+      </nav>
+    </header>
 
-<header id="header">
-  <h1>Game Search</h1>
-</header>
+    <main class="game-details-page">
+      <!-- Main game detail wrapper (ID kept for JS) -->
+      <section id="game-detail" class="game-detail">
+        <!-- HERO: image + meta -->
+        <section class="game-hero">
+          <div class="game-hero-image">
+            <!-- JS sets src/alt -->
+            <img id="game-image" alt="">
+          </div>
 
-<main>
-  <section id="game-detail" class="game-detail">
-    <div class="game-detail__header">
-      <img id="game-image" class="game-detail__image" alt="" />
-      <div>
-        <h1 id="game-title"></h1>
-        <p id="game-meta"></p>
-        <button id="add-to-wishlist">Add to Wishlist</button>
+          <div class="game-meta">
+            <h1 id="game-title"></h1>
+            <p id="game-meta"></p>
+
+            <div class="wishlist-actions">
+              <!-- JS can toggle this text between Add/Remove -->
+              <button
+                id="add-to-wishlist"
+                type="button"
+                class="btn-primary"
+              >
+                Add to Wishlist
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- DESCRIPTION -->
+        <section class="game-section">
+          <h2>Description</h2>
+          <p id="game-description" class="game-description"></p>
+        </section>
+
+        <!-- SCREENSHOTS -->
+        <section class="game-section">
+          <h2>Screenshots</h2>
+          <div id="screenshot-grid" class="screenshots-grid"></div>
+        </section>
+
+        <!-- BEST DEAL -->
+        <section class="game-section">
+          <h2>Best Deal</h2>
+          <div id="deal-info" class="deal-info">
+            <!-- CheapShark deal will be injected here -->
+          </div>
+        </section>
+      </section>
+
+      <!-- Modal for enlarged screenshots -->
+      <div id="screenshot-modal" class="modal hidden">
+        <div class="modal__content">
+          <button id="modal-close" class="modal__close" type="button">
+            &times;
+          </button>
+          <img id="modal-image" alt="Screenshot">
+        </div>
       </div>
-    </div>
+    </main>
 
-    <section>
-      <h2>Description</h2>
-      <p id="game-description"></p>
-    </section>
-
-    <section>
-      <h2>Screenshots</h2>
-      <div id="screenshot-grid" class="screenshot-grid"></div>
-    </section>
-
-    <section>
-      <h2>Best Deal</h2>
-      <div id="deal-info" class="deal-info">
-        <!-- CheapShark deal will go here -->
-      </div>
-    </section>
-  </section>
-
-  <!-- Modal -->
-  <div id="screenshot-modal" class="modal hidden">
-    <div class="modal__content">
-      <button id="modal-close" class="modal__close">&times;</button>
-      <img id="modal-image" alt="Screenshot" />
-    </div>
-  </div>
-</main>
-
-<script type="module" src="/src/gameDetails.mjs"></script>
-</body>
+    <script type="module" src="src/gameDetails.mjs"></script>
+  </body>
 </html>

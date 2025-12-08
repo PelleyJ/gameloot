@@ -1,5 +1,3 @@
-// src/wishlistStorage.mjs
-
 const STORAGE_KEY = "gameloot-wishlist";
 
 function loadWishlist() {
@@ -25,7 +23,7 @@ function saveWishlist(list) {
 
 /**
  * Add a game to the wishlist.
- * Expects a RAWG game object (or at least id, name, background_image).
+ * Expects a RAWG game object (or at least id, name, and some image fields).
  */
 export function addToWishlist(game) {
   if (!game || !game.id) return;
@@ -35,10 +33,19 @@ export function addToWishlist(game) {
   // Avoid duplicates
   if (list.some((item) => item.id === game.id)) return;
 
+  // Choose the best possible image from available fields
+  const image =
+    game.background_image ||
+    game.image || // ⬅ card-level image property
+    (game.short_screenshots?.length ? game.short_screenshots[0].image : null) ||
+    game.background_image_additional ||
+    "https://via.placeholder.com/420x236?text=No+Image";
+
   list.push({
     id: game.id,
     name: game.name,
-    background_image: game.background_image || "",
+    background_image: image,
+    rating: typeof game.rating === "number" ? game.rating : null,
     slug: game.slug || "",
   });
 

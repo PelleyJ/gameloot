@@ -14,7 +14,7 @@
       <div class="logo">GameLoot</div>
       <nav aria-label="Main navigation">
         <ul>
-          <li><a href="index.html">Search</a></li>
+          <li><a href="wishlist.html">Wishlist</a></li>
           <li><a href="deals.html">Deals</a></li>
         </ul>
       </nav>
@@ -25,13 +25,19 @@
 
       <section class="search-section" aria-label="Search for a game">
         <label for="searchInput" class="visually-hidden">Search for a game</label>
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="Search for a game..."
-          autocomplete="off"
-        >
-        <button id="searchBtn">Search</button>
+
+        <div class="search-bar">
+          <input
+            id="searchInput"
+            class="search-input"
+            type="text"
+            placeholder="Search for a game..."
+            autocomplete="off"
+          />
+          <button id="searchBtn" class="btn-search">
+            Search
+          </button>
+        </div>
       </section>
 
       <!-- Results rendered by main.js -->
