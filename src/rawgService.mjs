@@ -1,8 +1,5 @@
-const API_KEY =
-  (typeof import.meta !== "undefined" &&
-    import.meta.env &&
-    import.meta.env.VITE_RAWG_API_KEY) ||
-  "YOUR_RAWG_API_KEY_HERE";
+const API_KEY = "009f06ca3e0e4ffbb8d93f7739609191"; 
+const RAWG_API_BASE = "https://api.rawg.io/api";
 
 /**
  * Search games using the RAWG API.
@@ -11,32 +8,37 @@ const API_KEY =
  */
 export async function searchGames(query) {
   if (!API_KEY) {
-    console.warn(
-      "RAWG API key missing (VITE_RAWG_API_KEY or fallback). Returning empty list."
-    );
+    console.warn("RAWG API key missing. Returning empty list.");
     return [];
   }
 
-  const url = `https://api.rawg.io/api/games?key=${API_KEY}&search=${encodeURIComponent(
+  const url = `${RAWG_API_BASE}/games?key=${API_KEY}&search=${encodeURIComponent(
     query
   )}`;
 
   console.log("Fetching RAWG URL:", url);
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    console.error("RAWG error:", response.status, response.statusText);
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      console.error(
+        "RAWG Search Error:",
+        response.status,
+        response.statusText
+      );
+      return [];
+    }
+
+    const data = await response.json();
+    console.log("RAWG search results:", data);
+
+    return data.results || [];
+  } catch (err) {
+    console.error("Network error during RAWG search:", err);
     return [];
   }
-
-  const data = await response.json();
-  console.log("RAWG data:", data);
-  return data.results || [];
 }
-
-// ===== Week 6 additions: game details + screenshots =====
-
-const RAWG_API_BASE = "https://api.rawg.io/api";
 
 /**
  * Fetch detailed info for a single game by RAWG ID.
@@ -46,12 +48,16 @@ export async function fetchGameDetails(id) {
   if (!API_KEY) throw new Error("RAWG API key missing");
 
   const url = `${RAWG_API_BASE}/games/${id}?key=${API_KEY}`;
+  console.log("Fetching RAWG details URL:", url);
+
   const response = await fetch(url);
+
   if (!response.ok) {
     throw new Error(
       `RAWG details error: ${response.status} ${response.statusText}`
     );
   }
+
   return response.json();
 }
 
@@ -61,13 +67,18 @@ export async function fetchGameDetails(id) {
  */
 export async function fetchGameScreenshots(id) {
   if (!id || !API_KEY) return [];
+
   const url = `${RAWG_API_BASE}/games/${id}/screenshots?key=${API_KEY}`;
+  console.log("Fetching RAWG screenshots URL:", url);
+
   const response = await fetch(url);
+
   if (!response.ok) {
     throw new Error(
       `RAWG screenshots error: ${response.status} ${response.statusText}`
     );
   }
+
   const data = await response.json();
   return data.results || [];
 }
