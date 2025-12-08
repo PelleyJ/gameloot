@@ -1,4 +1,8 @@
-const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
+const API_KEY =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    import.meta.env.VITE_RAWG_API_KEY) ||
+  "YOUR_RAWG_API_KEY_HERE";
 
 /**
  * Search games using the RAWG API.
@@ -8,7 +12,7 @@ const API_KEY = import.meta.env.VITE_RAWG_API_KEY;
 export async function searchGames(query) {
   if (!API_KEY) {
     console.warn(
-      "RAWG API key missing (VITE_RAWG_API_KEY). Returning empty list."
+      "RAWG API key missing (VITE_RAWG_API_KEY or fallback). Returning empty list."
     );
     return [];
   }
